@@ -29,6 +29,6 @@ function login() {
         }
     })
     .catch((err)=> {
-        console.error("�α��ο� �����ϼ̽��ϴ�.");
+        console.error("로그인에 실패하였습니다.");
     });
 }
