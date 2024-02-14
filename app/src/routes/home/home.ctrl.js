@@ -1,37 +1,38 @@
 "use srtict";
 
-const users = {
-    id : ["woorimIT", "ë‚˜ê°œë°œ", "ê¹€íŒ€ì¥"],
-    psword : ["1234", "1234", "123456"],
-};
+const UserStorage = require("../../models/UserStorage");
 
 const output = {
-    home : (req, res) => {
+    home: (req, res) => {
         res.render("home/index");
     },
 
-    login : (req, res) => {
+    login: (req, res) => {
         res.render("home/login");
     },
 }
 
 const process = {
-    login : (req, res) => {
+    login: (req, res) => {
         const id = req.body.id,
-        psword = req.body.psword;
+            psword = req.body.psword;
+        
+        
+        const users = UserStorage.getUsers("id", "psword");
 
-        if (users.id.includes(id)){
+        const response = {};
+
+        if (users.id.includes(id)) {
             const idx = users.id.indexOf(id);
-            if (users.psword[idx] === psword){
-                return res.json({
-                    success: true,
-                });
+            if (users.psword[idx] === psword) {
+                response.success = true;
+                return res.json(response);
             }
         }
-        return res.json({
-            success: false,
-            msg: "ë¡œê·¸ì¸ì— ì‹¤íŒ¨í•˜ì…¨ìŠµë‹ˆë‹¤.",
-        });
+
+        response.success = false;
+        response.msg = "·Î±×ÀÎ¿¡ ½ÇÆĞÇß½À´Ï´Ù."
+        return res.json(response);
     }
 }
 
